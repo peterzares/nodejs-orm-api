@@ -12,6 +12,7 @@ router.get('/:id', getById);
 router.post('/', createSchema, create);
 router.put('/:id', updateSchema, update);
 router.delete('/:id', _delete);
+router.post('/auth/logout/:id', logout);
 
 module.exports = router;
 
@@ -74,3 +75,13 @@ function updateSchema(req, res, next) {
     }).with('password', 'confirmPassword');
     validateRequest(req, next, schema);
 }
+
+function logout(req, res, next) {
+    const id = req.params.id
+    userService.getById(id)
+    .then(user => { if (!user) { throw new Error('User not found'); }
+    const userName = `${user.firstName}`;
+    res.json({ message: `User ${userName} has logged out successfully` });
+    })
+    .catch(next);
+    }

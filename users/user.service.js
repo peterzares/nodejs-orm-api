@@ -63,3 +63,4 @@ async function getUser(id) {
     if (!user) throw 'User not found';
     return user;
 }
+
