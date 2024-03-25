@@ -6,7 +6,8 @@ module.exports = {
     getById,
     create,
     update,
-    delete: _delete
+    delete: _delete,
+    getProfile
 };
 
 async function getAll() {
@@ -54,6 +55,24 @@ async function update(id, params) {
 async function _delete(id) {
     const user = await getUser(id);
     await user.destroy();
+}
+
+async function getProfile(id) {
+    const user = await getUser(id);
+
+    if(!user) {
+        throw 'User does not exists';
+    }
+
+    const userData = {
+        email: user.email,
+        title: user.title,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role
+    }
+
+    return userData;
 }
 
 // helper functions

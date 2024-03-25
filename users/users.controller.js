@@ -13,10 +13,18 @@ router.post('/', createSchema, create);
 router.put('/:id', updateSchema, update);
 router.delete('/:id', _delete);
 router.post('/auth/logout/:id', logout);
+router.get('/:id/profile', getProfile);
+router.put('/:id/profile', updateSchema, update);
 
 module.exports = router;
 
 // route functions
+
+function getProfile(req, res, next) {
+    userService.getProfile(req.params.id)
+        .then(user => res.json(user))
+        .catch(next);
+}
 
 function getAll(req, res, next) {
     userService.getAll()
@@ -38,7 +46,7 @@ function create(req, res, next) {
 
 function update(req, res, next) {
     userService.update(req.params.id, req.body)
-        .then(() => res.json({ message: 'User updated' }))
+        .then(() => res.json({ message: 'User updated' }) )
         .catch(next);
 }
 
